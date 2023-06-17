@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oxford/pages/student_salary_details.dart';
+import 'package:oxford/pages/student/student_salary_details.dart';
 
-import 'shared/widget/my_appbar.dart';
-import 'shared/widget/my_color.dart';
+import '../shared/widget/my_appbar.dart';
+import '../shared/widget/my_color.dart';
 
 class StudentSalary extends StatefulWidget {
   const StudentSalary({Key? key}) : super(key: key);

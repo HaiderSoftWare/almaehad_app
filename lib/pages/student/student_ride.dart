@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'shared/widget/my_color.dart';
-import 'shared/widget/my_appbar.dart';
+import '../shared/widget/my_color.dart';
+import '../shared/widget/my_appbar.dart';
 
 class StudentDriver extends StatefulWidget {
   const StudentDriver({super.key});

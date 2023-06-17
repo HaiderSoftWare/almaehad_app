@@ -1,10 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oxford/controller/news_controller.dart';
 import 'package:oxford/pages/shared/function/function.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../model/sections.dart';
+import '../model/sections.dart';
+import 'news/dateil_news.dart';
 import 'shared/constant/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  final newsController = Get.put(NewsController());
 
   @override
   Widget build(BuildContext context) {
@@ -86,65 +89,77 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(height: 1.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 0.7.h,
-                      ),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          aspectRatio: 2.6,
-                          enlargeCenterPage: true,
-                          scrollDirection: Axis.horizontal,
-                          autoPlay: true,
-                          onPageChanged: (index, reason) {
-                            _currentIndex = index;
-                            setState(() {});
-                          },
-                        ),
-                        items: [
-                          Card(
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                    Obx(
+                      () => newsController.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount:
+                                    newsController.news.value.results!.length,
+                                itemBuilder: (context, index) {
+                                  return CarouselSlider(
+                                    options: CarouselOptions(
+                                      aspectRatio: 2.6,
+                                      enlargeCenterPage: true,
+                                      scrollDirection: Axis.horizontal,
+                                      autoPlay: false,
+                                      onPageChanged: (index, reason) {
+                                        newsController.changeIndex(index);
+                                      },
+                                    ),
+                                    items: [
+                                      Card(
+                                        clipBehavior: Clip.antiAlias,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            //move to detail news
+                                            Get.to(const DetailScreen());
+                                          },
+                                          child: Stack(
+                                            children: [
+                                              Image.asset(
+                                                'assets/img/news1.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Positioned(
+                                                right: 16,
+                                                top: 40,
+                                                child: Text(
+                                                  '${newsController.news.value.results![index].latestNewsTitle}',
+                                                  style: const TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
-                            child: Image.asset(
-                              'assets/img/news1.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                            // image: AssetImage(
-                            //   "",
-                            // ),
-                          ),
-                          Card(
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Image.asset(
-                              'assets/img/news1.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Card(
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Image.asset(
-                              'assets/img/news1.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                    Center(
-                      child: DotsIndicator(
-                        dotsCount: 3,
-                        position: _currentIndex,
-                        decorator: DotsDecorator(
-                          color: Colors.white,
-                          activeColor: PrimaryKD,
+                    Obx(
+                      () => Center(
+                        child: DotsIndicator(
+                          dotsCount: newsController.news.value.results!.length,
+                          position: newsController.currentIndex.value,
+                          decorator: DotsDecorator(
+                            color: Colors.white,
+                            activeColor: PrimaryKD,
+                          ),
                         ),
                       ),
                     ),
@@ -191,6 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 1.5.h),
                     Expanded(
+                      flex: 2,
                       child: GridView.builder(
                         shrinkWrap: true,
                         clipBehavior: Clip.hardEdge,
@@ -246,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

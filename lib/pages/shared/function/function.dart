@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
 import '../../exam_degree.dart';
-import '../../student_attend.dart';
-import '../../student_ride.dart';
-import '../../student_salary.dart';
+import '../../student/student_attend.dart';
+import '../../student/student_ride.dart';
+import '../../student/student_salary.dart';
 
 String? vinputphne(String input) {
   if (input.isEmpty) {

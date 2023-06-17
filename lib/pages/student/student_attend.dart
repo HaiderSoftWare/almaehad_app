@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'shared/widget/my_appbar.dart';
-import 'shared/widget/my_color.dart';
+import '../shared/widget/my_appbar.dart';
+import '../shared/widget/my_color.dart';
 
 class StudentAttend extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();

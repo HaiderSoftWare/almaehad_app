@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'shared/widget/my_appbar.dart';
+import '../shared/widget/my_appbar.dart';
 
 class StudentSalaryDetails extends StatefulWidget {
   const StudentSalaryDetails({Key? key}) : super(key: key);
